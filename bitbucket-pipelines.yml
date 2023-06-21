@@ -1,0 +1,68 @@
+image: python:3.7.4-alpine3.10
+pipelines:
+  branches:
+    release/development:
+      - step:
+          services:
+            - docker
+          caches:
+            - pip
+            - node
+          script:
+            - pip3 install awscli
+            - apk add curl
+            - curl -LO "https://releases.hashicorp.com/terraform/0.15.5/terraform_0.15.5_linux_amd64.zip"
+            - unzip terraform_0.15.5_linux_amd64.zip
+            - mv terraform /usr/local/bin/
+            - AWS_REGION="us-east-1"
+            - aws configure set aws_access_key_id "${DEV_AWS_KEY_S3}"
+            - aws configure set aws_secret_access_key "${DEV_AWS_SECRET_S3}"
+            - touch common_env
+            - touch service_env
+            - aws s3 cp "$s3_common_file_url" common_env
+            - aws s3 cp "$s3_service_file_url" service_env
+            - cat common_env service_env >> .env
+            - aws configure set aws_access_key_id "${DEV_AWS_KEY_ECR}"
+            - aws configure set aws_secret_access_key "${DEV_AWS_SECRET_ECR}"
+            - eval $(aws ecr get-login --no-include-email --region $AWS_REGION | sed 's;https://;;g')
+            - repo_exists=$(aws ecr describe-repositories --repository-names "chingari-app-service" --region us-east-1 >/dev/null 2>&1 && echo true || echo false)
+            - echo $repo_exists
+            - |
+              if [[ "$repo_exists" == false ]]; then
+                terraform init
+                terraform plan
+                terraform validate
+                terraform apply -auto-approve
+                echo "ECR repository created successfully."
+              else
+                echo "ECR repository already exists. Skipping Terraform steps."
+              fi
+            - IMAGE="463877552462.dkr.ecr.us-east-1.amazonaws.com/chingari-app-service"
+            - TAG=${BITBUCKET_COMMIT}
+            - docker build -t $IMAGE:$TAG .
+            - apk update && apk upgrade && apk add --no-cache git
+            - git config --global user.email "cicd@chingari.io"
+            - git config --global user.name "CICD"
+            - git clone https://chingaricicd:${CICD_APP_PASS}@bitbucket.org/sumitghosh/sre-backend.git -b release/dev
+            - cd sre-backend
+            - cd terraform_script
+            - sed -i 's@ECR_NAME@'chingari-app-service'@' terraform.tf
+            - sed -i 's@AWS_ACCESS_KEY_ID@'$DEV_AWS_KEY_ECR'@' terraform.tf
+            - sed -i 's@AWS_SECRET_ACCESS_KEY@'$DEV_AWS_SECRET_ECR'@' terraform.tf
+            - sed -i 's@RECORDNAME@'chingari-app-service'@' terraform.tf
+            - sed -i 's@ELB_NAME@'$ELB_NAME'@' terraform.tf
+            - sed -i 's@ELB_HOSTED_ZONE@'$ELB_HOSTED_ZONE'@' terraform.tf
+            - sed -i 's@KMS_KEY_ARN@'$KMS_KEY_ARN'@' terraform.tf
+            - cat terraform.tf
+            - docker push $IMAGE:$TAG
+            - cd ../chingari-app-service
+            - rm -rf .env
+            - sed -i 's|tag.*|tag:\ '"$TAG"'|' values.yaml
+            - git pull
+            - git add values.yaml
+            - git commit -m "Updated image for chingari-app-service"
+            - git push
+definitions:
+  services:
+    docker:
+      memory: 3072
