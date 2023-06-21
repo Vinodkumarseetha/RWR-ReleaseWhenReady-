@@ -1,0 +1,88 @@
+aws emr-containers start-job-run --virtual-cluster-id cg6l7z3lvi6n484qmwh9tk2u1 --name sample-job-name2 --execution-role-arn arn:aws:iam::463877552462:role/EMRContainers-JobExecutionRole --release-label emr-6.4.0-latest 
+--job-driver '{
+  "sparkSubmitJobDriver": {
+
+
+"entryPoint": "s3://chingari-prod-jars/spark-job-jars/data-engineering-jar-with-dependencies.jar",
+"entryPointArguments": ["clustercfg.preprod-products-esp.lko33b.aps1.cache.amazonaws.com:6379","9Dgb2JjYf39mrH2a","events","user_events","s3://pre-prod-events-stream/check-point/all_raw_events_eks/","user_events","b-1.pre-prod-event-data.fcje58.c2.kafka.ap-south-1.amazonaws.com:9092,b-2.pre-prod-event-data.fcje58.c2.kafka.ap-south-1.amazonaws.com:9092","k2439DTQCnvzYDjCGBvPN3GdMsa9IrQdfDO0HVXtOjuhJliZCXupMM62A6nEWj4tQkDYsPX15f9R8uk2FKbJPA==","<https://us-east-1-1.aws.cloud2.influxdata.com","fc298319bf08c330","s3://pre-prod-events-stream/all_raw_events_eks/","1> minutes","3000000","video","1","s3://chingari-prod-jars/spark-job-jars/catagory_param.txt"],
+"sparkSubmitParameters": "--conf spark.executor.memory=2G --conf spark.driver-memory=2G --conf spark.executor.instances=2 --conf spark.executor.cores=2 --conf spark.driver.cores=1 --files s3://chingari-prod-jars/spark-job-jars/log4j.properties --conf spark.driver.extraJavaOptions=-Dlog4j.configuration=log4j.properties --conf spark.executor.extraJavaOptions=-Dlog4j.configuration=log4j.properties --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.1.2 --class com.chingari.de.eventservice.ProcessRawEvents"
+  }
+
+}'
+
+
+
+
+
+
+aws emr-containers start-job-run --virtual-cluster-id cg6l7z3lvi6n484qmwh9tk2u1 --name sample-job-name2 --execution-role-arn arn:aws:iam::463877552462:role/EMRContainers-JobExecutionRole --release-label emr-6.4.0-latest 
+--job-driver '{
+  "sparkSubmitJobDriver": {
+  "entryPoint": "s3://chingari-prod-jars/spark-job-jars/data-engineering-jar-with-dependencies.jar",
+  "entryPointArguments": ["clustercfg.preprod-products-esp.lko33b.aps1.cache.amazonaws.com:6379","9Dgb2JjYf39mrH2a","events","user_events","s3://pre-prod-events-stream/check-point/all_raw_events_eks/","user_events","b-1.pre-prod-event-data.fcje58.c2.kafka.ap-south-1.amazonaws.com:9092,b-2.pre-prod-event-data.fcje58.c2.kafka.ap-south-1.amazonaws.com:9092","k2439DTQCnvzYDjCGBvPN3GdMsa9IrQdfDO0HVXtOjuhJliZCXupMM62A6nEWj4tQkDYsPX15f9R8uk2FKbJPA==","<https://us-east-1-1.aws.cloud2.influxdata.com","fc298319bf08c330","s3://pre-prod-events-stream/all_raw_events_eks/","1> minutes","3000000","video","1","s3://chingari-prod-jars/spark-job-jars/catagory_param.txt"],
+  "sparkSubmitParameters": "--conf spark.executor.memory=2G --conf spark.driver-memory=2G --conf spark.executor.instances=2 --conf spark.executor.cores=2 --conf spark.driver.cores=1 --files s3://chingari-prod-jars/spark-job-jars/log4j.properties --conf spark.driver.extraJavaOptions=-Dlog4j.configuration=log4j.properties --conf spark.executor.extraJavaOptions=-Dlog4j.configuration=log4j.properties --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.1.2 --class com.chingari.de.eventservice.ProcessRawEvents"
+
+  }
+
+}'
+
+
+aws emr-containers start-job-run 
+
+--virtual-cluster-id cg6l7z3lvi6n484qmwh9tk2u1
+
+--name sample-job-name sample-job-name2
+
+--execution-role-arn arn:aws:iam::463877552462:role/EMRContainers-JobExecutionRole
+
+--release-label emr-6.4.0-latest 
+
+--job-driver '{
+
+  "sparkSubmitJobDriver": {
+
+    "entryPoint": "s3://chingari-prod-jars/spark-job-jars/data-engineering-jar-with-dependencies.jar",
+
+    "entryPointArguments": ["clustercfg.preprod-products-esp.lko33b.aps1.cache.amazonaws.com:6379","9Dgb2JjYf39mrH2a","events","user_events","s3://pre-prod-events-stream/check-point/all_raw_events_eks/","user_events","b-1.pre-prod-event-data.fcje58.c2.kafka.ap-south-1.amazonaws.com:9092,b-2.pre-prod-event-data.fcje58.c2.kafka.ap-south-1.amazonaws.com:9092","k2439DTQCnvzYDjCGBvPN3GdMsa9IrQdfDO0HVXtOjuhJliZCXupMM62A6nEWj4tQkDYsPX15f9R8uk2FKbJPA==","<https://us-east-1-1.aws.cloud2.influxdata.com","fc298319bf08c330","s3://pre-prod-events-stream/all_raw_events_eks/","1> minutes","3000000","video","1","s3://chingari-prod-jars/spark-job-jars/catagory_param.txt"],
+
+    "sparkSubmitParameters": "--conf spark.executor.memory=2G --conf spark.driver-memory=2G --conf spark.executor.instances=2 --conf spark.executor.cores=2 --conf spark.driver.cores=1 --files s3://chingari-prod-jars/spark-job-jars/log4j.properties --conf spark.driver.extraJavaOptions=-Dlog4j.configuration=log4j.properties --conf spark.executor.extraJavaOptions=-Dlog4j.configuration=log4j.properties --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.1.2 --class com.chingari.de.eventservice.ProcessRawEvents"
+
+  }
+
+}'
+
+
+
+
+
+
+
+
+
+aws emr-containers start-job-run --virtual-cluster-id cg6l7z3lvi6n484qmwh9tk2u1 --name sample-job-name2 --execution-role-arn arn:aws:iam::463877552462:role/EMRContainers-JobExecutionRole --release-label emr-6.4.0-latest
+--job-driver '{
+  "sparkSubmitJobDriver": {
+         "entryPoint": "s3://chingari-prod-jars/spark-job-jars/data-engineering-jar-with-dependencies.jar",
+         "entryPointArguments": ["clustercfg.preprod-products-esp.lko33b.aps1.cache.amazonaws.com:6379","9Dgb2JjYf39mrH2a","events","user_events","s3://pre-prod-events-stream/check-point/all_raw_events_eks/","user_events","b-1.pre-prod-event-data.fcje58.c2.kafka.ap-south-1.amazonaws.com:9092,b-2.pre-prod-event-data.fcje58.c2.kafka.ap-south-1.amazonaws.com:9092","k2439DTQCnvzYDjCGBvPN3GdMsa9IrQdfDO0HVXtOjuhJliZCXupMM62A6nEWj4tQkDYsPX15f9R8uk2FKbJPA==","<https://us-east-1-1.aws.cloud2.influxdata.com","fc298319bf08c330","s3://pre-prod-events-stream/all_raw_events_eks/","1> minutes","3000000","video","1","s3://chingari-prod-jars/spark-job-jars/catagory_param.txt"],
+         "sparkSubmitParameters": "--conf spark.executor.memory=2G --conf spark.driver-memory=2G --conf spark.executor.instances=2 --conf spark.executor.cores=2 --conf spark.driver.cores=1 --files s3://chingari-prod-jars/spark-job-jars/log4j.properties --conf spark.driver.extraJavaOptions=-Dlog4j.configuration=log4j.properties --conf spark.executor.extraJavaOptions=-Dlog4j.configuration=log4j.properties --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.1.2 --class com.chingari.de.eventservice.ProcessRawEvents"
+  }      
+
+
+
+
+
+
+
+
+
+
+
+
+aws emr-containers start-job-run --virtual-cluster-id cg6l7z3lvi6n484qmwh9tk2u1 --name sample-job-name2 --execution-role-arn arn:aws:iam::463877552462:role/EMRContainers-JobExecutionRole --release-label emr-6.4.0-latest
+    "jobDriver": {
+    "sparkSubmitJobDriver": {
+      "entryPoint": "s3://chingari-prod-jars/spark-job-jars/data-engineering-jar-with-dependencies.jar",
+      "entryPointArguments": ["clustercfg.preprod-products-esp.lko33b.aps1.cache.amazonaws.com:6379","9Dgb2JjYf39mrH2a","events","user_events","s3://pre-prod-events-stream/check-point/all_raw_events_eks/","user_events","b-1.pre-prod-event-data.fcje58.c2.kafka.ap-south-1.amazonaws.com:9092,b-2.pre-prod-event-data.fcje58.c2.kafka.ap-south-1.amazonaws.com:9092","k2439DTQCnvzYDjCGBvPN3GdMsa9IrQdfDO0HVXtOjuhJliZCXupMM62A6nEWj4tQkDYsPX15f9R8uk2FKbJPA==","<https://us-east-1-1.aws.cloud2.influxdata.com","fc298319bf08c330","s3://pre-prod-events-stream/all_raw_events_eks/","1> minutes","3000000","video","1","s3://chingari-prod-jars/spark-job-jars/catagory_param.txt"],  
+       "sparkSubmitParameters": "--conf spark.executor.memory=2G --conf spark.driver-memory=2G --conf spark.executor.instances=2 --conf spark.executor.cores=2 --conf spark.driver.cores=1 --files s3://chingari-prod-jars/spark-job-jars/log4j.properties --conf spark.driver.extraJavaOptions=-Dlog4j.configuration=log4j.properties --conf spark.executor.extraJavaOptions=-Dlog4j.configuration=log4j.properties --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.1.2 --class com.chingari.de.eventservice.ProcessRawEvents"
+    }
+  }
